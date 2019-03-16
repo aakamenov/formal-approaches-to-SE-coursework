@@ -4,22 +4,23 @@ package Submarine with SPARK_Mode
 is 
   type Dive_Depth is range 0..1300;
   
-  type Submarine is record
+  type Submarine is tagged record
     Hatch_Sys: Hatch_System.Hatch_System;
     Depth: Dive_Depth;
   end record;
   
-  type Oxygen_Percentage is range 1..100;
+  type Oxygen_Count is range 0..1000;
   
   procedure Create(Self: in out Submarine);
     
   function Can_Operate(Sub: Submarine) return Boolean
-  is
-    (for all I in Sub.Hatch_Sys.H'Range => 
-      Sub.Hatch_Sys.H(I).Closed = True and then Sub.Hatch_Sys.H(I).Locked = True);
+  is (Hatch_System.Is_Sealed(Sub.Hatch_Sys));
       
-  procedure Change_Depth(Sub: in out Submarine; Distance: Dive_Depth) with
-    Pre => Can_Operate(Sub),
-    Post => Sub.Depth'Old /= Sub.Depth;
+  procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth) with
+    Pre'Class => Can_Operate(Self),
+    Post => Self.Depth'Old /= Self.Depth;
+    
+  procedure Emerge(Self: in out Submarine) with
+    Post => Self.Depth = 0;
     
 end Submarine;

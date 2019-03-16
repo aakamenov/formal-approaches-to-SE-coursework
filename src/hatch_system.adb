@@ -6,10 +6,16 @@ is
       Self.H(I).Closed := True;
       Self.H(I).Locked := False;
     end loop;
+    
+    Self.S := Open;
   end Create;
 
   procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
+    if Is_Sealed(Self) then 
+      return; 
+    end if;
+    
     for I in Self.H'Range loop
       if Self.H(I).Closed = False then
         return;
@@ -35,7 +41,30 @@ is
   
   procedure Unlock_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
+    if Is_Sealed(Self) then
+      return;
+    end if;
+    
     Self.H(Index).Locked := False;
   end Unlock_Hatch;
+  
+  procedure Seal(Self: in out Hatch_System) is
+  begin
+    for I in Self.H'Range loop
+      Self.H(I).Closed := True;
+      Self.H(I).Locked := True;
+    end loop;
+    
+    Self.S := Sealed;
+  end Seal;
+  
+  procedure Unseal(Self: in out Hatch_System) is
+  begin
+    for I in Self.H'Range loop
+      Self.H(I).Locked := False;
+    end loop;
+  
+    Self.S := Open;
+  end Unseal;
 
 end Hatch_System;
