@@ -5,7 +5,7 @@ is
   type Dive_Depth is range 0..1300;
   
   type Submarine is record
-    Hatch_Sys: Hatches;
+    Hatch_Sys: Hatch_System.Hatch_System;
     Depth: Dive_Depth;
   end record;
   
@@ -15,8 +15,8 @@ is
     
   function Can_Operate(Sub: Submarine) return Boolean
   is
-    (for all I in Sub.Hatch_Sys'Range => 
-      Sub.Hatch_Sys(I).Closed = True and then Sub.Hatch_Sys(I).Locked = True);
+    (for all I in Sub.Hatch_Sys.H'Range => 
+      Sub.Hatch_Sys.H(I).Closed = True and then Sub.Hatch_Sys.H(I).Locked = True);
       
   procedure Change_Depth(Sub: in out Submarine; Distance: Dive_Depth) with
     Pre => Can_Operate(Sub),

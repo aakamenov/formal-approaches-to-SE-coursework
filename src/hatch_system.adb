@@ -1,33 +1,41 @@
 package body Hatch_System
 is
-  procedure Open_Hatch(H: in out Hatches; Index: Hatch_Index) is
+  procedure Create(Self: in out Hatch_System) is
   begin
-    for I in H'Range loop
-      if H(I).Closed = False then
+    for I in Self.H'Range loop
+      Self.H(I).Closed := True;
+      Self.H(I).Locked := False;
+    end loop;
+  end Create;
+
+  procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
+  begin
+    for I in Self.H'Range loop
+      if Self.H(I).Closed = False then
         return;
       end if;
     end loop;
     
-    H(Index).Closed := False;
+    Self.H(Index).Closed := False;
   end Open_Hatch;
   
-  procedure Close_Hatch(H: in out Hatches; Index: Hatch_Index) is
+  procedure Close_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
-    H(Index).Closed := True;
+    Self.H(Index).Closed := True;
   end Close_Hatch;
   
-  procedure Lock_Hatch(H: in out Hatches; Index: Hatch_Index) is
+  procedure Lock_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
-    if H(Index).Closed = False then
+    if Self.H(Index).Closed = False then
       return;
     end if;
     
-    H(Index).Locked := True;
+    Self.H(Index).Locked := True;
   end Lock_Hatch;
   
-  procedure Unlock_Hatch(H: in out Hatches; Index: Hatch_Index) is
+  procedure Unlock_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
-    H(Index).Locked := False;
+    Self.H(Index).Locked := False;
   end Unlock_Hatch;
 
 end Hatch_System;

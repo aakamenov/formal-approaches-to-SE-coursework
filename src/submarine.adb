@@ -1,14 +1,12 @@
+with Hatch_System;
+
 package body Submarine
 is
   Oxygen_Threshold: constant Oxygen_Percentage := 20;
 
   procedure Create(Self: in out Submarine) is
   begin
-    for I in Self.Hatch_Sys'Range loop
-      Self.Hatch_Sys(I).Closed := True;
-      Self.Hatch_Sys(I).Locked := False;
-    end loop;
-
+    Hatch_System.Create(Self.Hatch_Sys);
     Self.Depth := 0;
   end Create;
 
