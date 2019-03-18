@@ -1,4 +1,5 @@
 with Hatch_System; use Hatch_System;
+with Oxygen_System; use Oxygen_System;
 
 package Submarine with SPARK_Mode
 is 
@@ -6,10 +7,9 @@ is
   
   type Submarine is tagged record
     Hatch_Sys: Hatch_System.Hatch_System;
+    Oxygen_Sys: Oxygen_System.Oxygen_System;
     Depth: Dive_Depth;
   end record;
-  
-  type Oxygen_Count is range 0..1000;
   
   procedure Create(Self: in out Submarine);
     
@@ -21,6 +21,7 @@ is
     Post => Self.Depth'Old /= Self.Depth;
     
   procedure Emerge(Self: in out Submarine) with
+    Pre'Class => Can_Operate(Self),
     Post => Self.Depth = 0;
     
 end Submarine;

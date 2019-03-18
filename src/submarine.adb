@@ -1,9 +1,7 @@
 with Hatch_System;
 
-package body Submarine
+package body Submarine with SPARK_Mode
 is
-  Oxygen_Threshold: constant Oxygen_Count := 200;
-
   procedure Create(Self: in out Submarine) is
   begin
     Hatch_System.Create(Self.Hatch_Sys);
