@@ -1,4 +1,4 @@
-package body Hatch_System
+package body Hatch_System with SPARK_Mode
 is
   procedure Create(Self: in out Hatch_System) is
   begin
@@ -9,20 +9,33 @@ is
     
     Self.S := Open;
   end Create;
-
-  procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
+  
+  function More_Than_One_Hatches_Are_Closed(Self: Hatch_System) return Boolean
+  is
+    Count: Integer := 0;
   begin
-    if Is_Sealed(Self) then 
-      return; 
-    end if;
-    
     for I in Self.H'Range loop
-      if Self.H(I).Closed = False then
-        return;
+      if Count > 1 then
+        exit;
+      end if;
+      
+      if Self.H(I).Closed = True then
+        Count := Count + 1;
       end if;
     end loop;
     
-    Self.H(Index).Closed := False;
+    return Count > 1;
+  end More_Than_One_Hatches_Are_Closed;
+
+  procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
+  begin
+    if Is_Sealed(Self) or Self.H(Index).Locked = True then 
+      return; 
+    end if;
+       
+    if More_Than_One_Hatches_Are_Closed(Self) then
+      Self.H(Index).Closed := False;
+    end if;
   end Open_Hatch;
   
   procedure Close_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is

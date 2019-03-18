@@ -22,12 +22,15 @@ is
       
   function Is_Sealed(Self: Hatch_System) return Boolean
     is (Self.S = Sealed);
+    
+  function More_Than_One_Hatches_Are_Closed(Self: Hatch_System) return Boolean;
       
   procedure Create(Self: in out Hatch_System);
   
   procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
-    Pre'Class => At_Least_One_Hatch_Is_Closed(Self) and then Self.H(Index).Locked = False,
-    Post => At_Least_One_Hatch_Is_Closed(Self) and then Self.H(Index).Closed = False;
+    Pre'Class => Is_Sealed(Self) = False and then 
+      Self.H(Index).Locked = False and then 
+      More_Than_One_Hatches_Are_Closed(Self);
     
   procedure Close_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
     Post => Self.H(Index).Closed = True;
@@ -38,7 +41,7 @@ is
     
   procedure Unlock_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
     Pre'Class => Is_Sealed(Self) = False,
-    Post => Self.H(Index).Closed = True and then Self.H(Index).Locked = True;
+    Post => Self.H(Index).Locked = False;
     
   procedure Seal(Self: in out Hatch_System) with
     Post => ((for all I in Self.H'Range => 
@@ -47,7 +50,7 @@ is
     
   procedure Unseal(Self: in out Hatch_System) with
     Post => ((for all I in Self.H'Range => 
-               Self.H(I).Closed = True and then Self.H(I).Locked = False)
+               Self.H(I).Locked = False)
             and then Is_Sealed(Self) = False);
 
 end Hatch_System;
