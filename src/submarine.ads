@@ -1,5 +1,6 @@
 with Hatch_System; use Hatch_System;
 with Oxygen_System; use Oxygen_System;
+with Torpedo_System; use Torpedo_System;
 
 package Submarine with SPARK_Mode
 is 
@@ -8,6 +9,7 @@ is
   type Submarine is tagged record
     Hatch_Sys: Hatch_System.Hatch_System;
     Oxygen_Sys: Oxygen_System.Oxygen_System;
+    Torpedo_Sys: Torpedo_System.Torpedo_System;
     Depth: Dive_Depth;
   end record;
   
