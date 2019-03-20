@@ -29,7 +29,7 @@ is
   function Create return Hatch_System;
   
   procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
-    Pre'Class => Is_Sealed(Self) = False and then 
+    Pre'Class => Self.Is_Sealed = False and then 
       Self.Get_Hatches(Index).Locked = False and then 
       More_Than_One_Hatches_Are_Closed(Self);
     
@@ -47,7 +47,7 @@ is
   procedure Seal(Self: in out Hatch_System) with
     Post => ((for all I in Self.Get_Hatches'Range => 
                Self.Get_Hatches(I).Closed = True and then Self.Get_Hatches(I).Locked = True)
-            and then Is_Sealed(Self));
+            and then Self.Is_Sealed);
     
   procedure Unseal(Self: in out Hatch_System) with
     Post => ((for all I in Self.Get_Hatches'Range => 

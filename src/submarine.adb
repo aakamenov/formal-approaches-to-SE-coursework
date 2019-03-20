@@ -1,4 +1,6 @@
 with Hatch_System;
+with Oxygen_System;
+with Torpedo_System;
 
 package body Submarine with SPARK_Mode
 is
@@ -20,41 +22,45 @@ is
     return Self.Hatch_Sys.Is_Sealed;
   end Can_Operate;
 
-  function Request_Hatch_System(Self: Submarine; Sys: out Hatch_System.Hatch_System) return Boolean
-  with SPARK_Mode => Off
+  function Get_Hatch_System(Self: Submarine) return Hatch_System.Hatch_System
+  is
+  begin
+    return Self.Hatch_Sys;
+  end Get_Hatch_System;
+
+  function Get_Oxygen_System(Self: Submarine) return Oxygen_System.Oxygen_System
+  is
+  begin
+    return Self.Oxygen_Sys;
+  end Get_Oxygen_System;
+
+  function Get_Torpedo_System(Self: Submarine) return Torpedo_System.Torpedo_System
+  is
+  begin
+    return Self.Torpedo_Sys;
+  end Get_Torpedo_System;
+
+  procedure Commit_Changes(Self: in out Submarine; State: Hatch_System.Hatch_System)
   is
   begin
     if Self.Depth = Dive_Depth'First then
-      Sys := Self.Hatch_Sys;
-      return True;
+      Self.Hatch_Sys := State;
     end if;
+  end Commit_Changes;
 
-    return False;
-  end Request_Hatch_System;
-
-  function Request_Oxygen_System(Self: Submarine; Sys: out Oxygen_System.Oxygen_System) return Boolean
-  with SPARK_Mode => Off
-  is
+  procedure Commit_Changes(Self: in out Submarine; State: Oxygen_System.Oxygen_System) is
   begin
     if Self.Can_Operate then
-      Sys := Self.Oxygen_Sys;
-      return True;
+      Self.Oxygen_Sys := State;
     end if;
+  end Commit_Changes;
 
-    return False;
-  end Request_Oxygen_System;
-
-  function Request_Torpedo_System(Self: Submarine; Sys: out Torpedo_System.Torpedo_System) return Boolean
-  with SPARK_Mode => Off
-  is
+  procedure Commit_Changes(Self: in out Submarine; State: Torpedo_System.Torpedo_System) is
   begin
     if Self.Can_Operate then
-      Sys := Self.Torpedo_Sys;
-      return True;
+      Self.Torpedo_Sys := State;
     end if;
-
-    return False;
-  end Request_Torpedo_System;
+  end Commit_Changes;
 
   function Get_Current_Depth(Self: Submarine) return Dive_Depth
   is

@@ -12,14 +12,13 @@ is
   
   function Get_Current_Depth(Self: Submarine) return Dive_Depth;
   
-  function Request_Hatch_System(Self: Submarine; Sys: out Hatch_System.Hatch_System) return Boolean
-  with SPARK_Mode => Off;
+  function Get_Hatch_System(Self: Submarine) return Hatch_System.Hatch_System;
+  function Get_Oxygen_System(Self: Submarine) return Oxygen_System.Oxygen_System;
+  function Get_Torpedo_System(Self: Submarine) return Torpedo_System.Torpedo_System;
   
-  function Request_Oxygen_System(Self: Submarine; Sys: out Oxygen_System.Oxygen_System) return Boolean
-  with SPARK_Mode => Off;
-  
-  function Request_Torpedo_System(Self: Submarine; Sys: out Torpedo_System.Torpedo_System) return Boolean
-  with SPARK_Mode => Off;
+  procedure Commit_Changes(Self: in out Submarine; State: Hatch_System.Hatch_System);
+  procedure Commit_Changes(Self: in out Submarine; State: Oxygen_System.Oxygen_System);
+  procedure Commit_Changes(Self: in out Submarine; State: Torpedo_System.Torpedo_System);
   
   function Can_Operate(Self: Submarine) return Boolean;
       
