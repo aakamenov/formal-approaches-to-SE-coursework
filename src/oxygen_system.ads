@@ -6,19 +6,25 @@ is
 
   type Status is (Critical, Warning, Stable);
 
+  type Oxygen_System is tagged private;
+
   type Tank_Sensor is private;
 
+  function Get_Oxygen_Level(Self: Oxygen_System) return Oxygen_Percentage;
+
+  function Get_Status(Self: Oxygen_System) return Status;
+
+  function Create return Oxygen_System;
+
+  procedure Update(Self: in out Oxygen_System);
+
+private
   type Oxygen_System is tagged record
     Oxygen_Count: Oxygen_Percentage;
     S: Status;
     Sensor: Tank_Sensor;
   end record;
 
-  procedure Create(Self: in out Oxygen_System);
-
-  procedure Update(Self: in out Oxygen_System);
-
-private
   type Tank_Sensor is record
     Value: Oxygen_Percentage;
   end record;

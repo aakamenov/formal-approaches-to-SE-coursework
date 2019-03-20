@@ -1,6 +1,8 @@
 package body Torpedo_System with SPARK_Mode
 is
-  procedure Create(Self: out Torpedo_System) is
+  function Create return Torpedo_System
+  is
+    Self: Torpedo_System;
   begin
     Self.Remaining_Torpedoes := Torpedo_Index'Last;
     -- Can't call Load in the loop because SPARK is stupid, but SPARKS gets MARKS
@@ -8,7 +10,21 @@ is
       Self.Tubes(I) := Loaded;
       Self.Remaining_Torpedoes := Self.Remaining_Torpedoes - 1;
     end loop;
+    
+    return Self;
   end Create;
+  
+  function Get_Torpedo_Count(Self: Torpedo_System) return Torpedo_Index
+  is
+  begin
+    return Self.Remaining_Torpedoes;
+  end Get_Torpedo_Count;
+  
+  function Get_Tubes(Self: Torpedo_System) return Torpedo_Tubes
+  is
+  begin
+    return Self.Tubes;
+  end Get_Tubes;
   
   procedure Load(Self: in out Torpedo_System; Index: Tube_Index) is
   begin

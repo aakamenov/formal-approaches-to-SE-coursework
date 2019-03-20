@@ -1,9 +1,31 @@
 package body Oxygen_System with SPARK_Mode
 is
-  procedure Create(Self: in out Oxygen_System) is 
+  function Create return Oxygen_System
+  is
+    Self: Oxygen_System;
+    Sensor: Tank_Sensor;
   begin
+    Sensor.Value := Oxygen_Percentage'Last;
+    Self.Sensor := Sensor;
+    Self.S := Stable;
+    Self.Oxygen_Count := Oxygen_Percentage'Last;
+    
     Update(Self);
+    
+    return Self;
   end Create;
+  
+  function Get_Oxygen_Level(Self: Oxygen_System) return Oxygen_Percentage
+  is
+  begin
+    return Self.Oxygen_Count;
+  end Get_Oxygen_Level;
+  
+  function Get_Status(Self: Oxygen_System) return Status
+  is
+  begin
+    return Self.S;
+  end Get_Status;
   
   procedure Update(Self: in out Oxygen_System) is
   begin

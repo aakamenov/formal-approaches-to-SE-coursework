@@ -1,13 +1,13 @@
 package body Hatch_System with SPARK_Mode
 is
-  procedure Create(Self: in out Hatch_System) is
+  function Create return Hatch_System
+  is
+    Self: Hatch_System;
   begin
-    for I in Self.H'Range loop
-      Self.H(I).Closed := True;
-      Self.H(I).Locked := False;
-    end loop;
-    
+    Self.H := (others => (Closed => True, Locked => False)); 
     Self.S := Open;
+    
+    return Self;
   end Create;
   
   function More_Than_One_Hatches_Are_Closed(Self: Hatch_System) return Boolean
@@ -26,6 +26,18 @@ is
     
     return Count > 1;
   end More_Than_One_Hatches_Are_Closed;
+  
+  function Get_Hatches(Self: Hatch_System) return Hatches
+  is
+  begin
+    return Self.H;
+  end Get_Hatches;
+  
+  function Get_Status(Self: Hatch_System) return Status
+  is
+  begin
+    return Self.S;
+  end Get_Status;
 
   procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) is
   begin
