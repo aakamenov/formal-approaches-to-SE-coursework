@@ -11,6 +11,7 @@ is
     Self.Hatch_Sys := Hatch_System.Create;
     Self.Oxygen_Sys := Oxygen_System.Create;
     Self.Torpedo_Sys := Torpedo_System.Create;
+    Self.Reactor_Sys := Reactor_System.Create;
     Self.Depth := 0;
 
     return Self;
@@ -40,18 +41,17 @@ is
     return Self.Torpedo_Sys;
   end Get_Torpedo_System;
 
+  function Get_Reactor_System(Self: Submarine) return Reactor_System.Reactor_System
+  is
+  begin
+    return Self.Reactor_Sys;
+  end Get_Reactor_System;
+
   procedure Commit_Changes(Self: in out Submarine; State: Hatch_System.Hatch_System)
   is
   begin
     if Self.Depth = Dive_Depth'First then
       Self.Hatch_Sys := State;
-    end if;
-  end Commit_Changes;
-
-  procedure Commit_Changes(Self: in out Submarine; State: Oxygen_System.Oxygen_System) is
-  begin
-    if Self.Can_Operate then
-      Self.Oxygen_Sys := State;
     end if;
   end Commit_Changes;
 

@@ -10,7 +10,7 @@ is
     Self.S := Stable;
     Self.Oxygen_Count := Oxygen_Percentage'Last;
     
-    Update(Self);
+    Self.Update;
     
     return Self;
   end Create;
