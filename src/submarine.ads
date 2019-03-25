@@ -22,6 +22,11 @@ is
   procedure Commit_Changes(Self: in out Submarine; State: Torpedo_System.Torpedo_System);
   
   function Can_Operate(Self: Submarine) return Boolean;
+  
+  procedure Update(Self: in out Submarine) with
+    Contract_Cases =>
+      (Self.Get_Oxygen_System.Get_Status = Critical => Self.Get_Current_Depth = 0,
+      Self.Get_Reactor_System.Get_Status = Critical => Self.Get_Current_Depth = 0);
       
   procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth) with
     Pre'Class => Self.Can_Operate,

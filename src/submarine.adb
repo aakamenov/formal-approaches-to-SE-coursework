@@ -1,6 +1,7 @@
 with Hatch_System;
 with Oxygen_System;
 with Torpedo_System;
+with Ada.Text_IO; use Ada.Text_IO;
 
 package body Submarine with SPARK_Mode
 is
@@ -67,6 +68,21 @@ is
   begin
     return Self.Depth;
   end Get_Current_Depth;
+
+  procedure Update(Self: in out Submarine)
+  is
+    Oxygen_Status: Oxygen_System.Status := Self.Oxygen_Sys.Get_Status;
+  begin
+    if Oxygen_Status = Warning then
+      Put_Line("Warning: Low Oxygen");
+    elsif Oxygen_Status = Critical then
+      Self.Emerge;
+    end if;
+
+    if Self.Reactor_Sys.Get_Status = Critical then
+      Self.Emerge;
+    end if;
+  end Update;
 
   procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth) is
   begin
