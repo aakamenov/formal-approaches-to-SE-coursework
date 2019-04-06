@@ -33,7 +33,10 @@ is
     end if;
     
     Self.Tubes(Index) := Loaded;
-    Self.Remaining_Torpedoes := Self.Remaining_Torpedoes - 1;
+    
+    if Self.Remaining_Torpedoes /= Torpedo_Index'First then
+      Self.Remaining_Torpedoes := Self.Remaining_Torpedoes - 1;
+    end if;
   end Load;
   
   procedure Unload(Self: in out Torpedo_System; Index: Tube_Index) is

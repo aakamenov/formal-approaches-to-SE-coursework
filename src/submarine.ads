@@ -7,7 +7,13 @@ package Submarine with SPARK_Mode
 is 
   type Dive_Depth is range 0..1300;
   
-  type Submarine is tagged private;
+  type Submarine is tagged record
+    Hatch_Sys: Hatch_System.Hatch_System;
+    Torpedo_Sys: Torpedo_System.Torpedo_System;
+    Oxygen_Sys: Oxygen_System.Oxygen_System;
+    Reactor_Sys: Reactor_System.Reactor_System;
+    Depth: Dive_Depth;
+  end record;
 
   function Create return Submarine;
   
@@ -23,26 +29,9 @@ is
   
   function Can_Operate(Self: Submarine) return Boolean;
   
-  procedure Update(Self: in out Submarine) with
-    Contract_Cases =>
-      (Self.Get_Oxygen_System.Get_Status = Critical => Self.Get_Current_Depth = 0,
-      Self.Get_Reactor_System.Get_Status = Critical => Self.Get_Current_Depth = 0);
+  procedure Update(Self: in out Submarine);
       
-  procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth) with
-    Pre'Class => Self.Can_Operate,
-    Post => Self.Get_Current_Depth'Old /= Self.Get_Current_Depth;
+  procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth);
     
-  procedure Emerge(Self: in out Submarine) with
-    Pre'Class => Self.Can_Operate,
-    Post => Self.Get_Current_Depth = 0;
-    
-private
-  type Submarine is tagged record
-    Hatch_Sys: Hatch_System.Hatch_System;
-    Torpedo_Sys: Torpedo_System.Torpedo_System;
-    Oxygen_Sys: Oxygen_System.Oxygen_System;
-    Reactor_Sys: Reactor_System.Reactor_System;
-    Depth: Dive_Depth;
-  end record;
-  
+  procedure Emerge(Self: in out Submarine);
 end Submarine;

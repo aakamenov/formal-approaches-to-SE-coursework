@@ -74,7 +74,9 @@ is
     Oxygen_Status: Oxygen_System.Status := Self.Oxygen_Sys.Get_Status;
   begin
     if Oxygen_Status = Warning then
+      pragma warnings(off, "no Global contract available");
       Put_Line("Warning: Low Oxygen");
+      pragma warnings(on, "no Global contract available");
     elsif Oxygen_Status = Critical then
       Self.Emerge;
     end if;

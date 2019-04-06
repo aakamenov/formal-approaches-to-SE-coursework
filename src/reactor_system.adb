@@ -6,8 +6,9 @@ is
     Sensor: Temp_Sensor;
   begin
     Sensor.Value := Temp_Percentage'Last;
+    Self.Sensor := Sensor;
     Self.Status := Stable;
-    Self.Temp_Level := Temp_Percentage'Last;
+    Self.Temp_Level := Sensor.Value;
     
     Self.Update;
     
