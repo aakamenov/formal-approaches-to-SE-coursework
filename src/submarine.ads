@@ -24,14 +24,21 @@ is
   function Get_Torpedo_System(Self: Submarine) return Torpedo_System.Torpedo_System;
   function Get_Reactor_System(Self: Submarine) return Reactor_System.Reactor_System;
   
-  procedure Commit_Changes(Self: in out Submarine; State: Hatch_System.Hatch_System);
-  procedure Commit_Changes(Self: in out Submarine; State: Torpedo_System.Torpedo_System);
+  procedure Commit_Changes(Self: in out Submarine; State: Hatch_System.Hatch_System) with
+    Pre'Class => Self.Depth = Dive_Depth'First;
+    
+  procedure Commit_Changes(Self: in out Submarine; State: Torpedo_System.Torpedo_System) with
+    Pre'Class => Self.Can_Operate;
   
   function Can_Operate(Self: Submarine) return Boolean;
   
-  procedure Update(Self: in out Submarine);
+  procedure Update(Self: in out Submarine) with
+    Contract_Cases => 
+      (Self.Depth = Dive_Depth'First => Self.Depth = Self.Depth'Old,
+      Self.Oxygen_Sys.Get_Status = Critical or Self.Reactor_Sys.Get_Status = Critical => Self.Depth = Dive_Depth'First);
       
-  procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth);
+  procedure Change_Depth(Self: in out Submarine; Distance: Dive_Depth) with
+    Pre'Class => Self.Can_Operate;
     
   procedure Emerge(Self: in out Submarine);
 end Submarine;
