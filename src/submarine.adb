@@ -79,6 +79,7 @@ is
       pragma warnings(on, "no Global contract available");
     elsif Oxygen_Status = Critical then
       Self.Emerge;
+      return;
     end if;
 
     if Self.Reactor_Sys.Get_Status = Critical then
