@@ -27,12 +27,6 @@ is
     return Count > 1;
   end More_Than_One_Hatches_Are_Closed;
   
-  function Get_Hatches(Self: Hatch_System) return Hatches
-  is
-  begin
-    return Self.H;
-  end Get_Hatches;
-  
   function Get_Status(Self: Hatch_System) return Status
   is
   begin

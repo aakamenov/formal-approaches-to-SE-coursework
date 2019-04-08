@@ -15,13 +15,11 @@ is
     S: Status;
   end record;
   
-  function Get_Hatches(Self: Hatch_System) return Hatches;
-  
   function Get_Status(Self: Hatch_System) return Status;
   
   function At_Least_One_Hatch_Is_Closed(Self: Hatch_System) return Boolean
   is
-    (for some I in Self.Get_Hatches'Range => 
+    (for some I in Self.H'Range => 
       Self.H(I).Closed = True);
       
   function Is_Sealed(Self: Hatch_System) return Boolean
@@ -33,7 +31,7 @@ is
   
   procedure Open_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
     Pre'Class => Self.Is_Sealed = False and then 
-      Self.Get_Hatches(Index).Locked = False and then 
+      Self.H(Index).Locked = False and then 
       More_Than_One_Hatches_Are_Closed(Self);
     
   procedure Close_Hatch(Self: in out Hatch_System; Index: Hatch_Index) with
@@ -48,7 +46,7 @@ is
     Post => Self.H(Index).Locked = False;
     
   procedure Seal(Self: in out Hatch_System) with
-    Post => ((for all I in Self.Get_Hatches'Range => 
+    Post => ((for all I in Self.H'Range => 
                Self.H(I).Closed = True and then Self.H(I).Locked = True)
             and then Self.S = Sealed);
     
