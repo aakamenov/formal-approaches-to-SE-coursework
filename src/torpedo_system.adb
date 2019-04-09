@@ -28,7 +28,7 @@ is
   
   procedure Load(Self: in out Torpedo_System; Index: Tube_Index) is
   begin
-    if Self.Remaining_Torpedoes > Torpedo_Index'First or Self.Tubes(Index) = Loaded then
+    if Self.Remaining_Torpedoes = Torpedo_Index'First or Self.Tubes(Index) = Loaded then
       return;
     end if;
     
