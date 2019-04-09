@@ -26,10 +26,9 @@ is
   procedure Unload(Self: in out Torpedo_System; Index: Tube_Index) with
     Pre'Class => Self.Tubes(Index) = Loaded,
     Contract_Cases =>
-      (Self.Tubes(Index) = Empty => Self.Tubes(Index) = Empty,
-      Self.Remaining_Torpedoes = Torpedo_Index'Last => Self.Tubes(Index)'Old = Self.Tubes(Index),
+      (Self.Remaining_Torpedoes = Torpedo_Index'Last => Self.Tubes(Index)'Old = Self.Tubes(Index),
       Self.Tubes(Index) = Loaded and then Self.Remaining_Torpedoes < Torpedo_Index'Last => 
-        Self.Tubes(Index) = Empty);
+        Self.Tubes(Index) = Empty and then Self.Remaining_Torpedoes = Self.Remaining_Torpedoes'Old + 1);
         
   procedure Fire(Self: in out Torpedo_System; Index: Tube_Index) with
     Post => Self.Tubes(Index) = Empty;
