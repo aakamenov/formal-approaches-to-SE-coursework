@@ -21,7 +21,7 @@ is
     Pre'Class => Self.Remaining_Torpedoes > 0 and then Self.Tubes(Index) = Empty,
     Contract_Cases => 
       (Self.Tubes(Index) = Loaded => Self.Remaining_Torpedoes'Old = Self.Remaining_Torpedoes,
-      Self.Remaining_Torpedoes > Torpedo_Index'First => Self.Remaining_Torpedoes < Self.Remaining_Torpedoes'Old);
+      Self.Remaining_Torpedoes > Torpedo_Index'First => Self.Remaining_Torpedoes = Self.Remaining_Torpedoes'Old - 1);
       
   procedure Unload(Self: in out Torpedo_System; Index: Tube_Index) with
     Pre'Class => Self.Tubes(Index) = Loaded,
